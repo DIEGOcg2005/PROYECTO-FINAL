@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Cabañas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/8f/cc/bc/hotel-posada-los-madronos.jpg?w=500&h=-1&s=1'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #eeeaea;
+        }
+
+        .container {
+            background-color: rgba(17, 8, 8, 0.85);
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            overflow: auto;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #fdfbf3;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .room {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .room h2 {
+            color: #f5eeee;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .room img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .room p {
+            color: #ccc;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .status-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            color: rgb(14, 10, 10);
+            margin-top: 10px;
+        }
+
+        .available {
+            background-color: #ecf5ed;
+        }
+
+        .occupied {
+            background-color: #fae5e1;
+        }
+
+        .return-button, .next-button {
+            display: inline-block;
+            margin: 15px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #8EC5FC, #66A6FF);
+            color: rgb(10, 8, 8);
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .return-button:hover, .next-button:hover {
+            background: linear-gradient(135deg, #66A6FF, #5C9BFC);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GESTIÓN DE CABAÑAS</h1> <!-- Título principal dentro del contenedor -->
+        <p>Estado actual de las cabañas:</p>
+
+        <!-- Cabaña 1 -->
+        <div class="room">
+            <h2>CABAÑA 1</h2>
+            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/8f/cc/ec/hotel-posada-los-madronos.jpg?w=1200&h=-1&s=1" alt="Imagen de la Cabaña 1"> <!-- Imagen estática -->
+            <p><strong>Descripción:</strong> Habitación estándar con una cama matrimonial, televisión y Wi-Fi gratuito.</p>
+            <p><strong>Precio:</strong> $300 por noche</p>
+            <p><strong>Características:</strong> TV de pantalla plana y baño privado.</p>
+            <button class="status-button available" onclick="toggleStatus(this)">Disponible</button>
+        </div>
+
+        <!-- Cabaña 2 -->
+        <div class="room">
+            <h2>CABAÑA 2</h2>
+            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/8f/cc/2e/hotel-posada-los-madronos.jpg?w=1200&h=-1&s=1" alt="Imagen de la Cabaña 2"> <!-- Imagen estática -->
+            <p><strong>Descripción:</strong> Cabaña con dos camas individuales en litera , vista al jardín, Wi-Fi gratis y escritorio de trabajo.</p>
+            <p><strong>Precio:</strong> $400 por noche</p>
+            <p><strong>Características:</strong> Baño privado y acceso a la alberca.</p>
+            <button class="status-button occupied" onclick="toggleStatus(this)">Ocupada</button>
+        </div>
+
+        <!-- Cabaña 3 -->
+        <div class="room">
+            <h2>CABAÑA 3</h2>
+            <img src="https://lh5.googleusercontent.com/p/AF1QipNqy68TQOpdQIHUxJFRhYzMmuNJvs8ROT2cyItQ=w243-h304-n-k-no-nu" alt="Imagen de la Cabaña 3"> <!-- Imagen estática -->
+            <p><strong>Descripción:</strong> Cabaña con cama matrimonial, Wi-Fi gratis, sillón cómodo y tele. Ideal para parejas.</p>
+            <p><strong>Precio:</strong> $500 por noche</p>
+            <p><strong>Características:</strong> Baño privado, servicio de bebidas y acceso a la alberca.</p>
+            <button class="status-button available" onclick="toggleStatus(this)">Disponible</button>
+        </div>
+
+        <!-- Botones de navegación -->
+        <a href="index.html" class="return-button">REGRESAR AL MENU PRINCIPAL</a>
+        <a href="reservas.html" class="next-button">SIGUIENTE</a>
+    </div>
+
+    <script>
+        // Función para cambiar el estado de ocupación de la cabaña
+        function toggleStatus(button) {
+            if (button.classList.contains('available')) {
+                button.classList.remove('available');
+                button.classList.add('occupied');
+                button.textContent = 'Ocupada';
+            } else {
+                button.classList.remove('occupied');
+                button.classList.add('available');
+                button.textContent = 'Disponible';
+            }
+        }
+    </script>
+</body>
+</html>

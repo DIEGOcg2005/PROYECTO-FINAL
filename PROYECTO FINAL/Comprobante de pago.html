@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprobante de Pago</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-image: url('https://lh5.googleusercontent.com/p/AF1QipNgO8hsGh7tSs0PHBFjh7HnH3fvfDc7ElFVJa4a=w243-h174-n-k-no-nu'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #eeeaea;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 12px;
+            width: 75%;
+            max-width: 900px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #eeeaea;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #f5eeee;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"], input[type="email"], input[type="date"], select, input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .button-section {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #8EC5FC, #66A6FF);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #66A6FF, #5C9BFC);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .navigation-section {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 12px 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #8EC5FC, #66A6FF);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 8px;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #66A6FF, #5C9BFC);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgb(241, 247, 250);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>COMPROBANTE DE PAGO</h1>
+        <form id="paymentForm" onsubmit="generateReceipt(event)">
+            <label for="clientName">Nombre del Cliente</label>
+            <input type="text" id="clientName" name="clientName" required>
+
+            <label for="roomNumber">Número de Cabaña</label>
+            <select id="roomNumber" name="roomNumber" required>
+                <option value="1" data-price="300">1 - $300 por noche</option>
+                <option value="2" data-price="400">2 - $400 por noche</option>
+                <option value="3" data-price="500">3 - $500 por noche</option>
+            </select>
+
+            <label for="checkInDate">Fecha de Entrada</label>
+            <input type="date" id="checkInDate" name="checkInDate" required>
+
+            <label for="checkInTime">Hora de Entrada</label>
+            <input type="text" id="checkInTime" name="checkInTime" required>
+
+            <label for="checkOutDate">Fecha de Salida</label>
+            <input type="date" id="checkOutDate" name="checkOutDate" required>
+
+            <label for="checkOutTime">Hora de Salida</label>
+            <input type="text" id="checkOutTime" name="checkOutTime" required>
+
+            <p id="totalAmount"><strong>Total a Pagar: $<span id="totalPrice" class="zero">0.00</span></strong></p>
+
+            <div class="button-section">
+                <a href="index.html" class="nav-link">REGRESAR AL MENU PRINCIPAL</a>
+                <button type="submit" class="button">GENERAR COMPROBANTE</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#checkInTime", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            defaultHour: 12,
+            defaultMinute: 0,
+        });
+
+        flatpickr("#checkOutTime", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            defaultHour: 12,
+            defaultMinute: 0,
+        });
+
+        function calculateTotal() {
+            const roomPrice = parseFloat(document.querySelector("#roomNumber").selectedOptions[0].getAttribute("data-price"));
+            const checkInDate = new Date(document.getElementById("checkInDate").value);
+            const checkOutDate = new Date(document.getElementById("checkOutDate").value);
+
+            if (checkInDate && checkOutDate) {
+                const timeDifference = checkOutDate - checkInDate;
+                const daysStayed = timeDifference / (1000 * 3600 * 24);
+                const totalAmount = daysStayed * roomPrice;
+                document.getElementById("totalPrice").innerText = totalAmount.toFixed(2);
+            }
+        }
+
+        document.getElementById("checkInDate").addEventListener("change", calculateTotal);
+        document.getElementById("checkOutDate").addEventListener("change", calculateTotal);
+        document.getElementById("roomNumber").addEventListener("change", calculateTotal);
+
+        function generateReceipt(event) {
+            event.preventDefault();
+            const clientName = document.getElementById("clientName").value;
+            const roomNumber = document.getElementById("roomNumber").value;
+            const checkInDate = document.getElementById("checkInDate").value;
+            const checkInTime = document.getElementById("checkInTime").value;
+            const checkOutDate = document.getElementById("checkOutDate").value;
+            const checkOutTime = document.getElementById("checkOutTime").value;
+            const totalPrice = document.getElementById("totalPrice").innerText;
+
+            const params = new URLSearchParams({
+                clientName,
+                roomNumber,
+                checkInDate,
+                checkInTime,
+                checkOutDate,
+                checkOutTime,
+                totalPrice
+            });
+
+            window.location.href = `imprimir-comprobante.html?${params.toString()}`;
+        }
+    </script>
+</body>
+</html>
+
+
+

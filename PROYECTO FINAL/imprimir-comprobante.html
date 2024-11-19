@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imprimir Comprobante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-image: url('https://lh5.googleusercontent.com/p/AF1QipNgO8hsGh7tSs0PHBFjh7HnH3fvfDc7ElFVJa4a=w243-h174-n-k-no-nu'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        h1 {
+            color: #f8e9e9;
+            margin-bottom: 20px;
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .info {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #faf4f4;
+        }
+
+        .container {
+            background-color: rgba(20, 20, 20, 0.8); /* Transparencia del 80% */
+            padding: 30px;
+            border-radius: 15px;
+            width: 70%;
+            max-width: 800px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            font-weight: bold;
+            line-height: 1.6;
+        }
+
+        .totalAmount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fcf9fd;
+            margin-top: 20px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #8EC5FC, #66A6FF);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .buttons button:hover {
+            background: linear-gradient(135deg, #66A6FF, #5C9BFC);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HOTEL LOS MADROÑOS</h1>
+        <p class="info">CLIENTE: <span id="clientName"></span></p>
+        <p class="info">NUMERO DE CABAÑA: <span id="roomNumber"></span></p>
+        <p class="info">FECHA DE ENTRADA: <span id="checkInDate"></span></p>
+        <p class="info">HORA DE ENTRADA: <span id="checkInTime"></span></p>
+        <p class="info">FECHA DE SALIDA : <span id="checkOutDate"></span></p>
+        <p class="info">HORA DE SALIDA : <span id="checkOutTime"></span></p>
+        <p class="totalAmount">TOTAL A PAGAR: $<span id="totalPrice"></span></p>
+        <p class="info">¡GRACIAS POR SU VISITA!</p>
+
+        <div class="buttons">
+            <button onclick="printComprobante()">Imprimir</button>
+            <button onclick="goToMenu()">Salir</button>
+            <button onclick="downloadPDF()">Descargar PDF</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            document.getElementById('clientName').textContent = urlParams.get('clientName');
+            document.getElementById('roomNumber').textContent = urlParams.get('roomNumber');
+            document.getElementById('checkInDate').textContent = urlParams.get('checkInDate');
+            document.getElementById('checkInTime').textContent = urlParams.get('checkInTime');
+            document.getElementById('checkOutDate').textContent = urlParams.get('checkOutDate');
+            document.getElementById('checkOutTime').textContent = urlParams.get('checkOutTime');
+            document.getElementById('totalPrice').textContent = urlParams.get('totalPrice');
+        });
+
+        function printComprobante() {
+            window.print();
+        }
+
+        function goToMenu() {
+            window.location.href = 'index.html';
+        }
+
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Título
+            doc.setFont('Arial', 'bold'); 
+            doc.setFontSize(30);
+            doc.text('HOTEL LOS MADROÑOS', 105, 20, null, null, 'center');
+
+            // Información del cliente
+            doc.setFontSize(16);
+            doc.setFont('times','italic');
+            doc.setTextColor(150, 90, 200);
+            doc.text(`CLIENTE: ${document.getElementById('clientName').textContent}`, 20, 40);
+            doc.text(`NUMERO DE CABAÑA: ${document.getElementById('roomNumber').textContent}`, 20, 50);
+            doc.text(`FECHA DE ENTRADA: ${document.getElementById('checkInDate').textContent}`, 20, 60);
+            doc.text(`HORA DE ENTRADA: ${document.getElementById('checkInTime').textContent}`, 20, 70);
+            doc.text(`FECHA DE SALIDA: ${document.getElementById('checkOutDate').textContent}`, 20, 80);
+            doc.text(`HORA DE SALIDA: ${document.getElementById('checkOutTime').textContent}`, 30, 90);
+
+            // Total a pagar
+            doc.setFont('times', 'italic');
+            doc.setFontSize(16);
+            doc.setTextColor(168, 93, 209);
+            doc.text(`Total a Pagar: $${document.getElementById('totalPrice').textContent}`, 20, 100);
+
+            // Mensaje extendido
+doc.setFontSize(14);
+doc.setTextColor(0, 0, 0);
+
+// Dividir el mensaje en líneas para evitar que se sobrepase el límite de la página
+let mensaje1 = 'Nos complace haber podido atenderle en El Hotel Los Madroños. Nuestro equipo de trabajo se esfuerza cada día para ofrecerle la mejor experiencia posible y hacer que su estancia sea memorable. Esperamos que haya disfrutado de nuestras instalaciones y servicios, y que su visita haya sido placentera y relajante. Recuerde que siempre estaremos encantados de recibirlo nuevamente, pues su comodidad y satisfacción son nuestra prioridad.';
+let mensaje2 = 'En El Hotel Los Madroños trabajamos con dedicación para brindarle un ambiente acogedor, seguro y cómodo, donde pueda desconectar y disfrutar de momentos de tranquilidad. Agradecemos su confianza al elegirnos para su estadía y esperamos poder servirle nuevamente en el futuro. ¡Hasta pronto!';
+
+// Agregar los párrafos con saltos de línea automáticos para que el texto no se salga de la página
+doc.text(mensaje1, 20, 150, { maxWidth: 170 });
+doc.text(mensaje2, 20, 190, { maxWidth: 170 });
+
+// Cierre del mensaje
+doc.setFontSize(14); 
+doc.setTextColor(0, 0, 0);
+doc.text('Atentamente,', 90, 219, null, null, 'center');
+doc.text('El Hotel Los Madroños', 91, 229, null, null, 'center');
+
+
+            // Imagen (logo)
+            const imgData = 'data:image/jpeg;base64,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';
+            doc.addImage(imgData, 'PNG', 120, 50, 80, 50);
+
+            // Guardar el PDF
+            doc.save('comprobante_pago.pdf');
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Hotelera - Hotel Madroño</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/8f/cc/bc/hotel-posada-los-madronos.jpg?w=500&h=-1&s=1'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            padding: 30px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #eeeaea;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #f5eeee;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+        }
+
+        a {
+            display: inline-block;
+            padding: 12px 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+            background: linear-gradient(135deg, #6e4a98, #b390d4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background: linear-gradient(135deg, #8c6aa8, #d6bae8);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container a {
+            background: linear-gradient(135deg, #4a98a8, #90d4d4);
+        }
+
+        .button-container a:hover {
+            background: linear-gradient(135deg, #6aa8b8, #bae8e8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HOTEL LOS MADROÑOS</h1>
+        <p>Bienvenido al sistema de gestión del Hotel los Madroños. Selecciona una de las siguientes opciones para continuar:</p>
+
+        <ul>
+            <li><a href="Hotel los madroños.html">Hotel los Madroños</a></li>
+            <li><a href="habitaciones.html">Gestión de cabañas</a></li>
+            <li><a href="reservas.html">Reservas</a></li>
+            <li><a href="comprobante de pago.html">Comprobante de Pago</a></li>
+        </ul>
+
+        <div class="button-container">
+            <a href="apihubicacion1.html">Ubicación</a>
+        </div>
+    </div>
+</body>
+</html>

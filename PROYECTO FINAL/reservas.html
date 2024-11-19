@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas - Hotel Madroño</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/8f/cc/bc/hotel-posada-los-madronos.jpg?w=500&h=-1&s=1'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 900px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #eeeaea;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .left-column, .right-column {
+            width: 45%;
+        }
+
+        h3 {
+            color: #f5eeee;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #f5eeee;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .button-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #8EC5FC, #66A6FF);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #66A6FF, #5C9BFC);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .navigation-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #8EC5FC, #66A6FF);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #66A6FF, #5C9BFC);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RESERVAS</h1>
+        <div class="form-section">
+            <div class="left-column">
+                <h3>DATOS CLIENTE</h3>
+                <label>Nombre</label>
+                <input type="text" id="nombre" placeholder="Ingrese su nombre">
+                
+                <label>Apellidos</label>
+                <input type="text" id="apellidos" placeholder="Ingrese sus apellidos">
+                
+                <label>Teléfono</label>
+                <input type="text" id="telefono" placeholder="Ingrese su teléfono">
+                
+                <label>Correo Electrónico</label>
+                <input type="email" id="correo" placeholder="Ingrese su correo electrónico">
+            </div>
+            <div class="right-column">
+                <label>Fecha de Reserva</label>
+                <input type="date" id="fechaReserva">
+                
+                <label>Hora de Llegada</label>
+                <input type="text" id="horaLlegada" placeholder="Selecciona la hora">
+                
+                <label>Cabaña que desea reservar</label>
+                <select id="cabaña">
+                    <option value="101">Cabaña 1</option>
+                    <option value="102">Cabaña 2</option>
+                    <option value="103">Cabaña 3</option>
+                </select>
+            </div>
+        </div>
+        <div class="button-section">
+            <button class="button" onclick="editarReserva()">Editar</button>
+            <button class="button" onclick="guardarReserva()">Guardar</button>
+            <button class="button" onclick="borrarFormulario()">Borrar</button>
+        </div>
+        <div class="navigation-section">
+            <a href="index.html" class="nav-link">REGRESAR AL MENU PRINCIPAL</a>
+            <a href="Gestion de cabañas.html" class="nav-link">GESTION DE CABAÑAS</a>
+            <a href="Comprobante de pago.html" onclick="irASiguiente()" class="nav-link">SIGUIENTE</a>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar flatpickr para la hora de llegada
+        flatpickr("#horaLlegada", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            minuteIncrement: 1,
+        });
+
+        function editarReserva() {
+            alert("Función de edición en proceso.");
+        }
+
+        function guardarReserva() {
+            const nombre = document.getElementById("nombre").value;
+            const apellidos = document.getElementById("apellidos").value;
+            const telefono = document.getElementById("telefono").value;
+            const correo = document.getElementById("correo").value;
+            const fechaReserva = document.getElementById("fechaReserva").value;
+            const horaLlegada = document.getElementById("horaLlegada").value;
+            const cabana = document.getElementById("cabaña").value;
+
+            // Enviar datos al servidor a través de fetch
+            fetch("guardarReserva.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ nombre, apellidos, telefono, correo, fechaReserva, horaLlegada, cabana })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error("Error al guardar la reserva:", error);
+            });
+        }
+
+        function borrarFormulario() {
+            document.getElementById("nombre").value = "";
+            document.getElementById("apellidos").value = "";
+            document.getElementById("telefono").value = "";
+            document.getElementById("correo").value = "";
+            document.getElementById("fechaReserva").value = "";
+            document.getElementById("horaLlegada").value = "";
+            document.getElementById("cabaña").value = "";
+        }
+
+        function irASiguiente() {
+            localStorage.setItem('nombre', document.getElementById("nombre").value);
+            localStorage.setItem('apellidos', document.getElementById("apellidos").value);
+            localStorage.setItem('horaLlegada', document.getElementById("horaLlegada").value);
+            localStorage.setItem('fechaReserva', document.getElementById("fechaReserva").value);
+            localStorage.setItem('cabaña', document.getElementById("cabaña").value);
+            
+            window.location.href = "Comprobante de pago.html";
+        }
+    </script>
+</body>
+</html>

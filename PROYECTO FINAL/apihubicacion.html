@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ubicación del Hotel</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <style>
+        #map { height: 400px; }
+    </style>
+</head>
+<body>
+    <h1>Ubicación del Hotel Los Madroños</h1>
+    <div id="map"></div>
+    <script>
+        const map = L.map('map').setView([19.6832763,-99.4326522,14], 15); // Coordenadas del hotel.
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.marker([19.6832763,-99.4326522,14]).addTo(map)
+            .bindPopup('Hotel Los Madroños')
+            .openPopup();
+    </script>
+</body>
+</html>
+
+
+
+
+
